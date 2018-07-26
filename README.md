@@ -24,5 +24,9 @@ The model has 80% accuracy on test data!
 
 # How to conduct predictions? 
 `python predict.py --gpu "cpu"`
-
-- 
+- Arguments: 
+* --input            input image
+* --gpu              gpu or cpu
+* --top_k            top k predictions
+* --checkpoint       checkpoint file
+* --category_names   category names
