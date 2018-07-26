@@ -1,10 +1,12 @@
 # Program to train model for flower recognition
-# written by bijan fallah 
+# @Author: bijan fallah 
 # https://www.linkedin.com/in/bijanfallah
+# @Date: 2018-07-26
 
 '''
+
 '''
-#Importing the packages: 
+# Importing the packages: 
 import argparse
 import matplotlib.pyplot as plt
 import torch
@@ -13,6 +15,8 @@ from torch import nn
 from torch import optim
 import torch.nn.functional as F
 from torchvision import datasets, transforms, models
+from collections import OrderedDict
+import json
 
 
 # command lines for argument parsing:
@@ -32,6 +36,9 @@ arg, _ = parser.parse_known_args() # partial parsing! (https://docs.python.org/2
 
 # functions: 
 def validation(model, testloader, criterion):
+	'''
+	validation function
+	'''
     test_loss = 0
     accuracy = 0
     for images, labels in testloader:
@@ -48,9 +55,11 @@ def validation(model, testloader, criterion):
     return test_loss, accuracy
 
 
-#load pretraind model  and train it: 
+#load pretraind model and train it: 
 def train_model(data='./flow',arch='vgg19',num_labels=102,hidden=4096,lr=0.001,gpu='gpu',checkpoint='./',epochs=10, print_every=500):
-    
+    '''
+    training function
+    '''
     if arg.arch:    
         arch=arg.arch
     if arg.learning_rate:
@@ -88,7 +97,7 @@ def train_model(data='./flow',arch='vgg19',num_labels=102,hidden=4096,lr=0.001,g
     features = list(model.classifier.children())[:-1]   
    
     
-    from collections import OrderedDict
+    
     classifier = nn.Sequential(OrderedDict([
                             ('fc1', nn.Linear(25088,hidden )),
                             ('relu1', nn.ReLU(True)), 
@@ -133,12 +142,15 @@ def train_model(data='./flow',arch='vgg19',num_labels=102,hidden=4096,lr=0.001,g
     trainloader = torch.utils.data.DataLoader(train_dataset, batch_size=4, shuffle=True)
     testloader = torch.utils.data.DataLoader(test_dataset, batch_size=4)
     validloader = torch.utils.data.DataLoader(valid_dataset, batch_size=4)
-    import json
+    
     with open('cat_to_name.json', 'r') as f:
         cat_to_name = json.load(f)    
         
     if gpu == 'gpu'    :
         model.to('cuda')
+    else:
+		model.cpu()
+		    
            # optimizer:
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.SGD(model.classifier.parameters(), lr=lr)        
@@ -150,8 +162,9 @@ def train_model(data='./flow',arch='vgg19',num_labels=102,hidden=4096,lr=0.001,g
            
         for ii, (inputs, labels) in enumerate(trainloader):
             steps += 1
-            
-            inputs, labels = inputs.to('cuda'), labels.to('cuda')
+            if gpu == 'gpu':
+				inputs, labels = inputs.to('cuda'), labels.to('cuda')
+				
             optimizer.zero_grad()
             # Forward and backward passes
             outputs = model.forward(inputs)
@@ -192,6 +205,6 @@ def train_model(data='./flow',arch='vgg19',num_labels=102,hidden=4096,lr=0.001,g
             
     torch.save(checkpoint_dict, checkpoint+'model_checkpoint.pth')
     torch.save(model, checkpoint+'model_main_checkpoint.pth')
-    print('training finished! and model saved! Enjoy it and do not forget to give feedbacks : https://www.linkedin.com/in/bijanfallah')
+    print('training finished! and model saved! Enjoy it and do not forget to give feedbacks : https://github.com/bijanfallah/Flowers_prediction.git')
     
 train_model()
