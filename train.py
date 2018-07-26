@@ -43,8 +43,8 @@ def validation(model, testloader, criterion):
     accuracy = 0
     for images, labels in testloader:
 
-      
-        images, labels = images.to('cuda'), labels.to('cuda')
+        if  gpu == 'gpu':
+            images, labels = images.to('cuda'), labels.to('cuda')
         output = model.forward(images)
         test_loss += criterion(output, labels).item()
 
