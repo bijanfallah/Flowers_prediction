@@ -9,7 +9,7 @@ The model has 80% accuracy on test data!
 # How to train the model? 
 `python train.py data-directory --args`
 ### example: 
-`python train.py --gpu "cpu" --data_dir 'flowers`
+`python train.py --gpu "cpu" --data_dir 'flowers'`
 
 - 
 # How to conduct predictions? 
