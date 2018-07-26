@@ -36,9 +36,9 @@ arg, _ = parser.parse_known_args() # partial parsing! (https://docs.python.org/2
 
 # functions: 
 def validation(model, testloader, criterion):
-	'''
-	validation function
-	'''
+    '''
+    validation function
+    '''
     test_loss = 0
     accuracy = 0
     for images, labels in testloader:
@@ -149,8 +149,8 @@ def train_model(data='./flow',arch='vgg19',num_labels=102,hidden=4096,lr=0.001,g
     if gpu == 'gpu'    :
         model.to('cuda')
     else:
-		model.cpu()
-		    
+        model.cpu()
+    
            # optimizer:
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.SGD(model.classifier.parameters(), lr=lr)        
@@ -163,8 +163,8 @@ def train_model(data='./flow',arch='vgg19',num_labels=102,hidden=4096,lr=0.001,g
         for ii, (inputs, labels) in enumerate(trainloader):
             steps += 1
             if gpu == 'gpu':
-				inputs, labels = inputs.to('cuda'), labels.to('cuda')
-				
+               inputs, labels = inputs.to('cuda'), labels.to('cuda')
+
             optimizer.zero_grad()
             # Forward and backward passes
             outputs = model.forward(inputs)
