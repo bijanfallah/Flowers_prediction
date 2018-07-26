@@ -1,4 +1,4 @@
-# Flowers prediction
+# Flowers' Species Prediction
 
 A code to distinguish the species of a flower image. There are 102 species recorded in the [dataset](http://www.robots.ox.ac.uk/~vgg/data/flowers/102/index.html). 
 The model has 80% accuracy on test data! 
