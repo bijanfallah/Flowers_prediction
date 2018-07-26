@@ -11,5 +11,18 @@ The model has 80% accuracy on test data!
 ### example: 
 `python train.py --gpu "cpu" --data_dir 'flowers'`
 
-- 
+- Arguments: 
+* --data_dir   data directory
+* --save_dir   saving directory
+* --arch       torch model architecture : vgg19, vgg16, ResNet-101, ResNet-151
+* --learning_rate learning rate 
+* --gpu        gpu or cpu
+* --top_k      top k predictions
+* --chpo       checkpoint file 
+* --hidden_units number of hidden units
+* --epochs     number of epochs
+
 # How to conduct predictions? 
+`python predict.py --gpu "cpu"`
+
+- 
